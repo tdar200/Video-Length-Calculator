@@ -81,7 +81,7 @@ async function main() {
   const folderPath =
     "C:\\Users\\dell\\Desktop\\Work\\Courses\\Master the Coding Interview Data Structures + Algorithms\\[TutsNode.com] - Master the Coding Interview Data Structures + Algorithms";
   // Set the start index for the subfolders
-  const startIndex = 7;
+  const startIndex = 9;
 
   // Set the end index for the subfolders
 
