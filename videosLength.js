@@ -12,7 +12,7 @@ async function getVideoLength(path) {
         resolve(duration);
       })
       .catch((error) => {
-        reject(error);
+        console.log(error);
       });
   });
 }
@@ -44,12 +44,13 @@ async function processFolder(folderPath) {
   return totalLength;
 }
 
-async function processFolders(folderPath, startIndex) {
+async function processFolders(folderPath, startIndex, totalHour, endIndex) {
   let totalLength = 0;
   // Read the contents of the folder
   const contents = fs.readdirSync(folderPath);
   // Iterate over the subfolders in the folder
-  for (let i = 0; i < i < contents.length; i++) {
+
+  for (let i = 0; i < contents.length; i++) {
     if (!contents[i] || !folderPath) break;
     const subfolderPath = path.join(folderPath, contents[i]);
     const digit = `${contents[i][0]}${
@@ -58,7 +59,7 @@ async function processFolders(folderPath, startIndex) {
 
     // Check if the item is a folder
     try {
-      if (+digit >= startIndex) {
+      if (+digit >= startIndex && +digit < endIndex) {
         if (fs.statSync(subfolderPath).isDirectory()) {
           // Process the subfolder and add the total length to the total
           folderVideoLength = await processFolder(
@@ -75,7 +76,7 @@ async function processFolders(folderPath, startIndex) {
       }
     } catch (err) {
       console.error(err);
-      break;
+      continue;
     }
   }
   return totalLength;
@@ -84,7 +85,16 @@ async function processFolders(folderPath, startIndex) {
 async function main() {
   // Set the path of the folder to process
   const folderPath =
-    "C:\\Users\\dell\\Desktop\\[TutsNode.com] - Complete Machine Learning & Data Science Bootcamp 2021";
+    "C:\\Users\\dell\\Documents\\Torrents\\Understanding TypeScript - 2022 Edition\\[TutsNode.com] - Understanding TypeScript - 2022 Edition";
+  // "C:\\Users\\dell\\Desktop\\[FreeCourseSite.com] Udemy - SQL and PostgreSQL The Complete Developer's Guide";
+  // "C:\\Users\\dell\\Documents\\Torrents\\[FreeCoursesOnline.Me] ZeroToMastery - Master The Coding Interview System Design + Architecture [Part 1]";
+  // "C:\\Users\\dell\\Desktop\\The Complete Junior to Senior Web Developer Roadmap";
+  // "E:\\Courses\\Database\\[FreeCourseSite.com] Udemy - SQL and PostgreSQL The Complete Developer's Guide";
+  // "E:\\Courses\\Web - Projects - Complete Courses\\The Complete Junior to Senior Web Developer Roadmap";
+  // "C:\\Users\\dell\\Desktop\\Work\\Courses\\[TutsNode.com] - JavaScript The Advanced Concepts";
+  // "C:\\Users\\dell\\Documents\\Torrents\\Cypress V6- UI Automation Testing + API Testing + Frameworks\\[TutsNode.com] - Cypress V6- UI Automation Testing + API Testing + Frameworks";
+  // "C:\\Users\\dell\\Desktop\\Work\\Courses\\[TutsNode.com] - Complete Machine Learning & Data Science Bootcamp 2021";
+  // "C:\\Users\\dell\\Desktop\\[TutsNode.com] - Complete Machine Learning & Data Science Bootcamp 2021";
   // "D:\\Restaurant excel\\Torrent\\Tutorials\\Complete Machine Learning & Data Science Bootcamp 2021\\[TutsNode.com] - Complete Machine Learning & Data Science Bootcamp 2021";
   // "D:\\Restaurant excel\\Torrent\\Tutorials\\[TutsNode.com] - JavaScript The Advanced Concepts";
   // "D:\\Restaurant excel\\Torrent\\Tutorials\\Complete React Native in 2021 Zero to Mastery with Hooks\\[TutsNode.com] - Complete React Native in 2021 Zero to Mastery with Hooks";
@@ -97,8 +107,15 @@ async function main() {
   // "C:\\Users\\dell\\Desktop\\Work\\Courses\\Master the Coding Interview Data Structures + Algorithms\\[TutsNode.com] - Master the Coding Interview Data Structures + Algorithms";
   // Set the start index for the subfolders
   const startIndex = 0;
-  const totalLength = await processFolders(folderPath, startIndex);
-  const watchEachDay = 5;
+  const endIndex = 170;
+  const totalHour = 6;
+  const totalLength = await processFolders(
+    folderPath,
+    startIndex,
+    totalHour,
+    endIndex
+  );
+  const watchEachDay = 4;
   const totalLengthInHours = totalLength / 3600;
   console.log(`Total lengthof videos: ${totalLengthInHours} hours
   `);
@@ -111,3 +128,8 @@ async function main() {
 }
 
 main();
+
+// Design a game
+// Update Portfolio
+// Trading Algo
+// Scraping bot for finding jobs
